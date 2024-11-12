@@ -15,7 +15,7 @@ class HTMLNode:
         self.children = children
         self.properties = properties
 
-    def to_html(self):
+    def to_html(self) -> str:
         raise NotImplementedError
 
     def properties_to_html(self) -> str:
@@ -25,9 +25,29 @@ class HTMLNode:
                 html += f' {key}="{val}"'
             return html
         else:
-            raise TypeError("Properties is None")
+            return ""
 
     def __repr__(self) -> str:
         return (
             f"HTMLNode:\n{self.tag}\n{self.content}\n{self.children}\n{self.properties}"
         )
+
+
+class LeafNode(HTMLNode):
+
+    def __init__(
+        self, tag: str | None, content: str, properties: Dict | None = None
+    ) -> None:
+        super().__init__(tag, content, None, properties)
+
+    def to_html(self) -> str:
+        if self.content is None:
+            raise ValueError
+        else:
+
+            if self.tag is not None:
+                html = f"<{self.tag}{self.properties_to_html()}>{self.content}</{self.tag}>"
+            else:
+                html = self.content
+
+            return html
