@@ -1,9 +1,11 @@
 from textnode import TextType, TextNode
+from htmlnode import HTMLNode, LeafNode, ParentNode
 
 
 def main():
-    node_1 = TextNode("hello world", TextType.NORMAL)
-    print(node_1)
+    children = [LeafNode(None, "hello"), LeafNode("b", "world")]
+    p_node = ParentNode("p", children)
+    print(p_node.to_html())
 
 
 if __name__ == "__main__":

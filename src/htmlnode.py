@@ -51,3 +51,24 @@ class LeafNode(HTMLNode):
                 html = self.content
 
             return html
+
+
+class ParentNode(HTMLNode):
+
+    def __init__(
+        self, tag: str, children: List, properties: Dict | None = None
+    ) -> None:
+        super().__init__(tag, None, children, properties)
+
+    def to_html(self) -> str:
+        if self.tag is None:
+            raise ValueError("ParentNode must have a tag")
+        elif self.children is None or not self.children:
+            raise ValueError("ParentNode must have children")
+        else:
+            html = ""
+            html += f"<{self.tag}>"
+            for child in self.children:
+                html += child.to_html()
+            html += f"</{self.tag}>"
+            return html
