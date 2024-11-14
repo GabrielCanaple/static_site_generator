@@ -1,4 +1,6 @@
+from typing import List
 from enum import Enum
+from htmlnode import HTMLNode, LeafNode
 
 
 class TextType(Enum):
@@ -30,3 +32,55 @@ class TextNode:
 
     def __repr__(self) -> str:
         return f"TextNode({self.text}, {self.text_type.value}, {self.url})"
+
+    def to_html_node(self) -> HTMLNode:
+        match self.text_type:
+            case TextType.NORMAL:
+                return LeafNode(None, self.text)
+            case TextType.BOLD:
+                return LeafNode("b", self.text)
+            case TextType.ITALIC:
+                return LeafNode("i", self.text)
+            case TextType.CODE:
+                return LeafNode("code", self.text)
+            case TextType.LINK:
+                return LeafNode("a", self.text, {"href": self.url})
+            case TextType.IMAGE:
+                return LeafNode("img", "", {"src": self.url, "alt": self.text})
+
+
+def split_node_delimiter(
+    unparsed_nodes: List[TextNode], delimiter: str, text_type: TextType
+) -> List[TextNode]:
+    pass
+    new_nodes = []
+
+    for node in unparsed_nodes:
+
+        # important case, if you don't do that the special type will get overwritten
+        if node.text_type != TextType.NORMAL:
+            new_nodes.append(node)
+            continue
+
+        node_text_split = node.text.split(delimiter)
+
+        # check for wrong markdown syntax
+        if len(node_text_split) % 2 == 0:
+            raise Exception("Error while parsing : invalid markdown.")
+
+        is_of_text_type = (
+            False  # the first substring is always normal text (can be empty)
+        )
+        for substr in node_text_split:
+            # ignore empty substrings
+            if substr == "":
+                is_of_text_type = not is_of_text_type
+                continue
+
+            if is_of_text_type:
+                new_nodes.append(TextNode(substr, text_type))
+            else:
+                new_nodes.append(TextNode(substr, TextType.NORMAL))
+            is_of_text_type = not is_of_text_type
+
+    return new_nodes
