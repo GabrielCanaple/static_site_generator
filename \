@@ -5,11 +5,8 @@ from textnode import (
     TextNode,
     LeafNode,
 )
-from inline_markdown import (
-    extract_markdown_images,
-    split_node_delimiter,
-    extract_markdown_links,
-)
+from inline_markdown import     extract_markdown_images,   split_node_delimiter, extract_markdown_links,
+
 
 
 class TestTextNode(unittest.TestCase):
