@@ -1,4 +1,4 @@
-from textnode import TextType, TextNode, split_node_delimiter
+from textnode import TextType, TextNode, extract_markdown_links, split_node_delimiter
 from htmlnode import HTMLNode, LeafNode, ParentNode
 
 
@@ -11,6 +11,9 @@ def main():
         "This is text with a **bolded phrase** in the middle", TextType.NORMAL
     )
     print(split_node_delimiter([node], "**", TextType.BOLD))
+
+    text = "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)"
+    print(extract_markdown_links(text))
 
 
 if __name__ == "__main__":

@@ -96,4 +96,5 @@ def extract_markdown_images(text: str) -> List[tuple[str, str]]:
 def extract_markdown_links(text: str) -> List[tuple[str, str]]:
     regex: str = r"(?<!\!)\[([^\[\]]*)\]\(([^\(\)]*)\)"
     matches = re.finditer(regex, text)
-    return list(map(lambda match: (match.group(1), match.group(2)), matches))
+    print(matches)
+    return list(map(lambda match: (match.group(0), match.group(1)), matches))
