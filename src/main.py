@@ -1,20 +1,14 @@
 from textnode import TextType, TextNode
 from htmlnode import HTMLNode, LeafNode, ParentNode
-from inline_markdown import extract_markdown_links, split_node_delimiter
+from inline_markdown import (
+    split_nodes_images,
+    text_to_textnodes,
+)
 
 
 def main():
-    children = [LeafNode(None, "hello"), LeafNode("b", "world")]
-    p_node = ParentNode("p", children)
-    print(p_node.to_html())
-
-    node = TextNode(
-        "This is text with a **bolded phrase** in the middle", TextType.NORMAL
-    )
-    print(split_node_delimiter([node], "**", TextType.BOLD))
-
-    text = "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)"
-    print(extract_markdown_links(text))
+    text = "This is **text** with an *italic* word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"
+    print(text_to_textnodes(text))
 
 
 if __name__ == "__main__":
