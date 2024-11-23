@@ -7,8 +7,8 @@ class HTMLNode:
         self,
         tag: str | None = None,
         content: str | None = None,
-        children: List | None = None,
-        properties: Dict | None = None,
+        children: List["HTMLNode"] | None = None,
+        properties: Dict[str, str] | None = None,
     ) -> None:
         self.tag = tag
         self.content = content
@@ -36,7 +36,7 @@ class HTMLNode:
 class LeafNode(HTMLNode):
 
     def __init__(
-        self, tag: str | None, content: str, properties: Dict | None = None
+        self, tag: str | None, content: str, properties: Dict[str, str] | None = None
     ) -> None:
         super().__init__(tag, content, None, properties)
 
@@ -56,7 +56,10 @@ class LeafNode(HTMLNode):
 class ParentNode(HTMLNode):
 
     def __init__(
-        self, tag: str, children: List, properties: Dict | None = None
+        self,
+        tag: str,
+        children: List[HTMLNode],
+        properties: Dict[str, str] | None = None,
     ) -> None:
         super().__init__(tag, None, children, properties)
 
