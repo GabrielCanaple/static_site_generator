@@ -57,3 +57,15 @@ def block_to_block_type(text: str) -> BlockType:
         return BlockType.ORDERED_LIST
     else:
         return BlockType.PARAGRAPH
+
+
+def extract_title(text: str) -> str:
+    blocks = markdown_to_blocks(text)
+    if not blocks:
+        raise ValueError("Empty markdown document.")
+    header = blocks[0]
+    count = header.find(" ")
+    if block_to_block_type(header) != BlockType.HEADING or count != 1:
+        raise ValueError("No heading in first line of markdown document.")
+    else:
+        return header[count + 1 :].strip()

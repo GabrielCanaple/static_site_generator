@@ -36,7 +36,10 @@ def build_block_children_quote(block: str) -> List[HTMLNode]:
             lambda textnode: textnode.to_html_node(),
             text_to_textnodes(
                 "\n".join(
-                    map(lambda line: line.lstrip("> ").strip(), block.split("\n"))
+                    map(
+                        lambda line: line.lstrip().lstrip(">").strip(),
+                        block.split("\n"),
+                    )
                 )
             ),
         )
@@ -56,7 +59,7 @@ def build_block_children_unordered_list(block: str) -> List[ParentNode]:
                 ),
             ),
             map(
-                lambda line: line.lstrip("*- ").strip(),
+                lambda line: line.lstrip().lstrip("*-").strip(),
                 block.split("\n"),
             ),
         )
@@ -77,7 +80,10 @@ def build_block_children_ordered_list(block: str) -> List[ParentNode]:
                     )
                 ),
             ),
-            map(lambda line: line.lstrip("1234567890. ").strip(), block.split("\n")),
+            map(
+                lambda line: line.lstrip().lstrip("1234567890.").strip(),
+                block.split("\n"),
+            ),
         )
     )
 
